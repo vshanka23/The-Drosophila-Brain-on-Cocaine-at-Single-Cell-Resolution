@@ -500,28 +500,4 @@ Brain_cocaine_DE_male_stim_C16_index <- which(Brain_cocaine_DE_male_stim_C16[,5]
 C16_scale_data <- FetchData(Brain.integrated,vars = rownames(Brain_cocaine_DE_male_stim_C16[Brain_cocaine_DE_male_stim_C16_index,]),cells=C16_cells,slot = "scale.data")
 write.xlsx(C16_scale_data,"C16_scale_data.xlsx",rowNames=TRUE)
 
-##One can also pull of sample specific data, instead of the entire set. To do this, identify what the # that follows each cells barcode represents. This can be accomplished by setting the idents of the integrated object to sample id (see sections in the beginning) and using WhichCells and giving it the sample ID. It will pull all of the cells that correspond to that sample ID. Look at the _# at the end of the cell barcodes and map the numbers to specific samples. In this dataset the numbers ranged from 1 to 8 because there are 8 total samples. Parse out the exported csv (or .txt) file to only contain cells from samples of interest. 
-
-##WGCNA
-##C22 Male
-
-
-WGCNA_matrix <- t(C22_male_scale_data)
-s = abs(bicor(WGCNA_matrix))
-powers = c(c(1:10), seq(from = 12, to=20, by=1))
-sft = pickSoftThreshold(WGCNA_matrix, powerVector = powers, verbose = 5)
-plot(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],
-xlab='Soft Threshold (power)',ylab='Scale Free Topology Model Fit,signed R^2',
-type='n', main = paste('Scale independence'));
-text(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],
-labels=powers,cex=1,col='red'); abline(h=0.90,col='red')
-beta = 3
-a = s^beta
-w = 1-a
-geneTree = hclust(as.dist(w), method = 'average')
-modules = cutreeDynamic(dendro = geneTree, distM = w, deepSplit = 4, pamRespectsDendro = FALSE,
-minClusterSize = 30)
-module.colours = labels2colors(modules)
-myheatcol = colorpanel(250,'red',"orange",'lemonchiffon')
-TOMplot(w, geneTree, module.colours, main="C22 Male WGCNA based on DEG", col=myheatcol)
-
+##One can also pull of sample specific data, instead of the entire set. To do this, identify what the # that follows each cells barcode represents. This can be accomplished by setting the idents of the integrated object to sample id (see sections in the beginning) and using WhichCells and giving it the sample ID. It will pull all of the cells that correspond to that sample ID. Look at the _# at the end of the cell barcodes and map the numbers to specific samples. In this dataset the numbers ranged from 1 to 8 because there are 8 total samples. Parse out the exported csv (or .txt) file to only contain cells from samples of interest.
